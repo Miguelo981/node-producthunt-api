@@ -1,15 +1,15 @@
 {
   "name": "node-producthunt-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Unofficial Node.js wrapper for the Product Hunt Graphql API V2",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "dev": "npm run tsc && node dist/index.js",
+    "dev": "npm run build && node dist/index.js",
+    "test": "node dist/test.js",
     "example": "node example/index.mjs",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf ./dist",
     "tsc": "tsc --outDir dist/",
     "build": "npm run clean && npm run tsc"
