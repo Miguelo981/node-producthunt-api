@@ -1,24 +1,17 @@
 {
   "name": "node-producthunt-api",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Unofficial Node.js wrapper for the Product Hunt Graphql API V2",
-  "main": "lib/index.js",
-  "module": "lib/index.mjs",
-  "types": "lib/types/index.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "files": [
-    "lib/**/*"
-  ],
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
-    "dev": "npm run tsc && node lib/index.js",
+    "dev": "npm run build && node dist/index.js",
+    "test": "node dist/test.js",
     "example": "node example/index.mjs",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rimraf ./lib",
-    "tsc": "tsc",
+    "clean": "rimraf ./dist",
+    "tsc": "tsc --outDir dist/",
     "build": "npm run clean && npm run tsc"
   },
   "repository": {
@@ -37,18 +30,6 @@
     "url": "https://github.com/Miguelo981/node-producthunt-api/issues"
   },
   "homepage": "https://github.com/Miguelo981/node-producthunt-api#readme",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.mjs"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
-      }
-    }
-  },
   "dependencies": {
     "axios": "^1.4.0"
   },
