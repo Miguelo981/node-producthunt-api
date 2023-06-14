@@ -1,6 +1,6 @@
 import { GrantType } from "./types"
 
-const packageJson = require("../package.json");
+const packageJson = require("./package.json");
 
 export interface ConfigurationParameters {
     clientId?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
