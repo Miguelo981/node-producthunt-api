@@ -1,13 +1,14 @@
-import globalAxios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios'
+import globalAxios, {
+  AxiosInstance,
+  AxiosPromise,
+  AxiosRequestConfig,
+} from 'axios'
 import { API_V, BASE_PATH, BaseAPI, RequestArgs } from './base'
-import {
-  DUMMY_BASE_URL,
-  createRequestFunction,
-  toPathString,
-} from './common'
+import { DUMMY_BASE_URL, createRequestFunction, toPathString } from './common'
 import { Configuration } from './configuration'
 import { postsQuery } from './queries/post'
-import type { Order } from "./types"
+import type { Order } from './types'
+import { topicsQuery } from './queries/topic'
 
 /**
  * Represents the response object for a ProductHunt post.
@@ -26,7 +27,59 @@ export interface PostData {
 /**
  * Represents the posts object within the ProductHunt post data.
  */
+export interface PageInfo {
+  /**
+   * The end cursor value of the posts.
+   * @type {string}
+   * @memberof PageInfo
+   */
+  endCursor?: string
+
+  /**
+   * If there is a next page of posts.
+   * @type {boolean}
+   * @memberof PageInfo
+   */
+  hasNextPage?: boolean
+
+  /**
+   * If there is a previous page of posts.
+   * @type {boolean}
+   * @memberof PageInfo
+   */
+  hasPreviousPage?: boolean
+
+  /**
+   * The start cursor value of the posts.
+   * @type {string}
+   * @memberof PageInfo
+   */
+  startCursor?: string
+}
+
+/**
+ * Represents the posts object within the ProductHunt post data.
+ */
 export interface Posts {
+  /**
+   * The total count value of the posts.
+   * @type {number}
+   * @memberof Posts
+   */
+  totalCount?: number
+
+  /**
+   * The page info object of the posts.
+   * @type {PageInfo}
+   * @memberof Posts
+   */
+  pageInfo?: PageInfo
+
+  /**
+   * The edges object of the posts.
+   * @type {PostEdge[]}
+   * @memberof Posts
+   */
   edges?: PostEdge[]
 }
 
@@ -362,7 +415,145 @@ export interface GetPostsRequest {
   variables?: GetPostsRequestVariables
 }
 
+/**
+ * Represents the response object for a ProductHunt topic.
+ */
+export interface ProductHuntTopicResponse {
+  data?: TopicData
+}
 
+/**
+ * Represents the data object within the ProductHunt topic response.
+ */
+export interface TopicData {
+  topics?: Topics
+}
+
+/**
+ * Represents the topics object within the ProductHunt topic data.
+ */
+export interface Topics {
+  /**
+   * The total count value of the topics.
+   * @type {number}
+   * @memberof Topics
+   */
+  totalCount?: number
+
+  /**
+   * The page info object of the topics.
+   * @type {PageInfo}
+   * @memberof Topics
+   */
+  pageInfo?: PageInfo
+
+  /**
+   * The edges object of the topics.
+   * @type {PostEdge[]}
+   * @memberof Topics
+   */
+  nodes?: Topic[]
+}
+
+/**
+ * Represents a Topic object within the topics data.
+ * @interface Topic
+ */
+export interface Topic {
+  /**
+   * The name of the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  name?: string
+
+  /**
+   * The creation date of the topic.
+   * @type {Date}
+   * @memberof Topic
+   */
+  createdAt?: Date
+
+  /**
+   * The description of the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  description?: string
+
+  /**
+   * The number of followers of the topic.
+   * @type {number}
+   * @memberof Topic
+   */
+  followersCount?: number
+
+  /**
+   * The unique identifier of the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  id?: string
+
+  /**
+   * The image associated with the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  image?: string
+
+  /**
+   * Indicates if the user is following the topic.
+   * @type {boolean}
+   * @memberof Topic
+   */
+  isFollowing?: boolean
+
+  /**
+   * The number of posts related to the topic.
+   * @type {number}
+   * @memberof Topic
+   */
+  postsCount?: number
+
+  /**
+   * The slug of the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  slug?: string
+
+  /**
+   * The URL associated with the topic.
+   * @type {string}
+   * @memberof Topic
+   */
+  url?: string
+}
+
+/**
+ * @export
+ * @interface GetTopicsRequestVariables
+ */
+export interface GetTopicsRequestVariables {
+  followedByUserid?: string
+  query?: string
+  order?: Order
+  after?: string
+  before?: string
+  first?: number
+  last?: number
+}
+
+/**
+ *
+ * @export
+ * @interface GetTopicsRequest
+ */
+export interface GetTopicsRequest {
+  query?: string
+  variables?: GetTopicsRequestVariables
+}
 
 /**
  * ProductHuntAPI - object-oriented interface
@@ -379,12 +570,29 @@ export class ProductHuntAPI extends BaseAPI {
    * @throws {RequiredError}
    * @memberof ProductHuntAPI
    */
-  public getPosts(
+  public GetPosts(
     getPostsRequest?: GetPostsRequest,
     options?: AxiosRequestConfig
   ) {
     return ProductHuntAPIFp(this.configuration)
-      .getPosts(getPostsRequest, options)
+      .GetPosts(getPostsRequest, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Creates a completion for the provided prompt and parameters.
+   * @param {GetTopicsRequest} getTopicsRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProductHuntAPI
+   */
+  public GetTopics(
+    getTopicsRequest?: GetTopicsRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return ProductHuntAPIFp(this.configuration)
+      .GetTopics(getTopicsRequest, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
@@ -399,12 +607,12 @@ export const ProductHuntAPIAxiosParamCreator = function (
   return {
     /**
      *
-     * @summary Creates a model response for the given chat conversation.
+     * @summary Creates a post response for the given params.
      * @param {GetPostsRequest} getPostsRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPosts: async (
+    GetPosts: async (
       getPostsRequest?: GetPostsRequest,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
@@ -453,6 +661,62 @@ export const ProductHuntAPIAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     *
+     * @summary Creates a topic response for the given params.
+     * @param {GetTopicsRequest} getTopicsRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    GetTopics: async (
+      getTopicsRequest?: GetTopicsRequest,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'getTopicsRequest' is not null or undefined
+      //assertParamExists('getPosts', 'getTopicsRequest', getTopicsRequest)
+      const localVarPath = `${API_V}/api/graphql`
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      const data = {
+        query: getTopicsRequest?.query ?? topicsQuery,
+        variables: { ...getTopicsRequest?.variables },
+      }
+
+      //setVariables(data, getTopicsRequest.variables)
+
+      const headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      /* localVarRequestOptions.data = serializeDataIfNeeded(
+        getTopicsRequest,
+        localVarRequestOptions,
+        configuration
+      ) */
+      localVarRequestOptions.data = data
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -466,12 +730,12 @@ export const ProductHuntAPIFp = function (configuration?: Configuration) {
   return {
     /**
      *
-     * @summary Creates a completion for the provided prompt and parameters.
-     * @param {CreateCompletionRequest} createCompletionRequest
+     * @summary Get posts from Product Hunt for the provided parameters.
+     * @param {GetPosts} GetPosts
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPosts(
+    async GetPosts(
       getPostsRequest?: GetPostsRequest,
       options?: AxiosRequestConfig
     ): Promise<
@@ -480,8 +744,35 @@ export const ProductHuntAPIFp = function (configuration?: Configuration) {
         basePath?: string
       ) => AxiosPromise<ProductHuntPostResponse>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPosts(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.GetPosts(
         getPostsRequest,
+        options
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     *
+     * @summary Get topics from Product Hunt for the provided parameters.
+     * @param {GetTopics} GetTopics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async GetTopics(
+      getTopicsRequest?: GetTopicsRequest,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ProductHuntTopicResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.GetTopics(
+        getTopicsRequest,
         options
       )
       return createRequestFunction(
