@@ -13,6 +13,12 @@ query Post ($first: Int, $order: PostsOrder, $featured: Boolean, $postedBefore: 
         url: $url
     ) {
         totalCount
+        pageInfo {
+            endCursor
+            hasNextPage
+            hasPreviousPage
+            startCursor
+        }
         edges {
             cursor
             node {
