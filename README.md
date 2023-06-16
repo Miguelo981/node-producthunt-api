@@ -43,20 +43,21 @@ Check out the [full API documentation](http://api-v2-docs.producthunt.com.s3-web
 All of the available API request functions additionally contain an optional final parameter where you can pass custom [axios request options](https://axios-http.com/docs/req_config), for example:
 
 ```javascript
-const completion = await productHuntAPI.getPosts(
-  {
-    variables: {
-      first: 20,
-      order: "VOTES"
-    }
-  },
-  {
-    timeout: 1000,
-    headers: {
-      "Example-Header": "example",
+const completion = await productHuntAPI
+  .getPosts(
+    {
+      variables: {
+        first: 20,
+        order: "VOTES"
+      }
     },
-  }
-);
+    {
+      timeout: 1000,
+      headers: {
+        "Example-Header": "example",
+      },
+    }
+  );
 ```
 
 ### Error handling
@@ -65,13 +66,12 @@ API requests can potentially return errors due to invalid inputs or other issues
 
 ```javascript
 try {
-  const { data } = await productHuntAPI.getPosts(
-    {
+  const { data } = await productHuntAPI
+  .getPosts({
       variables: {
         first: 20,
         order: "VOTES"
       }
-    },
   });
   console.log(data.data.posts.edges);
 } catch (error) {
