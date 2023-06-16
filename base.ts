@@ -10,7 +10,7 @@
  */
 
 
-import type { Configuration, ConfigurationParameters } from './configuration';
+import type { Configuration } from './configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';

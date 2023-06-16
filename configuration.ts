@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 import { getApiKey } from './common'
 import { GrantType } from './types'
 import globalAxios from 'axios'
@@ -106,16 +107,16 @@ export class Configuration {
         if (headers['Authorization']) return req
 
         if (!this.apiKey) {
-            const token = await getApiKey(this)
+          const token = await getApiKey(this)
 
-            this.apiKey = token
+          this.apiKey = token
         }
 
         this.baseOptions.headers = {
-            Authorization: `Bearer ${this.apiKey}`,
-            ...this.baseOptions.headers,
+          Authorization: `Bearer ${this.apiKey}`,
+          ...this.baseOptions.headers,
         }
-        
+
         req.headers['Authorization'] = `Bearer ${this.apiKey}`
 
         return req

@@ -7,7 +7,7 @@ import { API_V, BASE_PATH, BaseAPI, RequestArgs } from './base'
 import { DUMMY_BASE_URL, createRequestFunction, toPathString } from './common'
 import { Configuration } from './configuration'
 import { postsQuery } from './queries/post'
-import type { Order } from './types'
+import type { PostOrder, TopicOrder } from './types'
 import { topicsQuery } from './queries/topic'
 
 /**
@@ -397,7 +397,7 @@ export interface GetPostsRequestVariables {
   postedBefore?: Date
   postedAfter?: Date
   topic?: string
-  order?: Order
+  order?: PostOrder
   after?: string
   before?: string
   first?: number
@@ -538,7 +538,7 @@ export interface Topic {
 export interface GetTopicsRequestVariables {
   followedByUserid?: string
   query?: string
-  order?: Order
+  order?: TopicOrder
   after?: string
   before?: string
   first?: number
@@ -631,7 +631,7 @@ export const ProductHuntAPIAxiosParamCreator = function (
         ...options,
       }
       const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      //const localVarQueryParameter = {} as any
 
       localVarHeaderParameter['Content-Type'] = 'application/json'
 
@@ -687,7 +687,7 @@ export const ProductHuntAPIAxiosParamCreator = function (
         ...options,
       }
       const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      //const localVarQueryParameter = {} as any
 
       localVarHeaderParameter['Content-Type'] = 'application/json'
 
