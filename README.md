@@ -23,12 +23,15 @@ const configuration = new Configuration({
 })
 const productHuntAPI = new ProductHuntAPI(configuration)
 
-const { data } = await productHuntAPI.getPosts(
-  {
-    first: 20,
-    order: "VOTES",
-    postedAfter: new Date("2022/12/01"),
-    topic: "web3"
+const { data } = await productHuntAPI
+  .getPosts({
+    variables: {
+      first: 20,
+      order: "VOTES",
+      postedAfter: new Date("2022/12/01"),
+      after: "NjA",
+      topic: "web3"
+    }
   })
 console.log(data.data.posts.edges)
 ```
@@ -42,8 +45,10 @@ All of the available API request functions additionally contain an optional fina
 ```javascript
 const completion = await productHuntAPI.getPosts(
   {
-    first: 20,
-    order: "VOTES"
+    variables: {
+      first: 20,
+      order: "VOTES"
+    }
   },
   {
     timeout: 1000,
@@ -62,8 +67,10 @@ API requests can potentially return errors due to invalid inputs or other issues
 try {
   const { data } = await productHuntAPI.getPosts(
     {
-      first: 20,
-      order: "VOTES"
+      variables: {
+        first: 20,
+        order: "VOTES"
+      }
     },
   });
   console.log(data.data.posts.edges);
