@@ -24,7 +24,7 @@ const configuration = new Configuration({
 const productHuntAPI = new ProductHuntAPI(configuration)
 
 const { data } = await productHuntAPI
-  .getPosts({
+  .GetPosts({
     variables: {
       first: 20,
       order: "VOTES",
@@ -44,7 +44,7 @@ All of the available API request functions additionally contain an optional fina
 
 ```javascript
 const completion = await productHuntAPI
-  .getPosts(
+  .GetPosts(
     {
       variables: {
         first: 20,
@@ -67,7 +67,7 @@ API requests can potentially return errors due to invalid inputs or other issues
 ```javascript
 try {
   const { data } = await productHuntAPI
-  .getPosts({
+  .GetPosts({
       variables: {
         first: 20,
         order: "VOTES"
