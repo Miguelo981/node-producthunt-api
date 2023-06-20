@@ -83,3 +83,20 @@ try {
   }
 }
 ```
+
+
+### Roadmap
+
+- [x] Support Typescript typing
+- [x] Support for Oauth token middleware
+- [x] Add GetPosts query
+- [x] Add GetTopics query
+- [ ] Add GetPost query
+- [ ] Add GetTopic query
+- [ ] Add GetCollection/s query
+- [ ] Add GetViewer/s query
+- [ ] Add GetUser/s query
+- [ ] Add GetMakerGroup/s query
+- [ ] Add GetGoal/s query
+- [ ] Add GetComment/s query
+- [ ] Add mutation/s support
