@@ -6,7 +6,7 @@ import globalAxios, {
 import { API_V, BASE_PATH, BaseAPI, RequestArgs } from './base'
 import { DUMMY_BASE_URL, createRequestFunction, toPathString } from './common'
 import { Configuration } from './configuration'
-import { postsQuery } from './queries/post'
+import { postsQuery, postQuery } from './queries/post'
 import type { PostOrder, TopicOrder } from './types'
 import { topicsQuery } from './queries/topic'
 
@@ -416,6 +416,25 @@ export interface GetPostsRequest {
 }
 
 /**
+ * @export
+ * @interface GetPostRequestVariables
+ */
+export interface GetPostRequestVariables {
+  id?: string
+  slug?: string
+}
+
+/**
+ *
+ * @export
+ * @interface GetPostRequest
+ */
+export interface GetPostRequest {
+  query?: string
+  variables?: GetPostRequestVariables
+}
+
+/**
  * Represents the response object for a ProductHunt topic.
  */
 export interface ProductHuntTopicResponse {
@@ -595,6 +614,23 @@ export class ProductHuntAPI extends BaseAPI {
       .GetTopics(getTopicsRequest, options)
       .then(request => request(this.axios, this.basePath))
   }
+
+  /**
+   *
+   * @summary Creates a completion for the provided prompt and parameters.
+   * @param {GetPostRequest} getPostRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProductHuntAPI
+   */
+  public GetPost(
+    getPostRequest?: GetPostRequest,
+    options?: AxiosRequestConfig
+  ) {
+    return ProductHuntAPIFp(this.configuration)
+      .GetPost(getPostRequest, options)
+      .then(request => request(this.axios, this.basePath))
+  }
 }
 
 /**
@@ -717,6 +753,62 @@ export const ProductHuntAPIAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     *
+     * @summary Creates a post response for the given params.
+     * @param {GetPostRequest} getPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    GetPost: async (
+      getPostRequest?: GetPostRequest,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'getPostsRequest' is not null or undefined
+      //assertParamExists('getPosts', 'getPostsRequest', getPostsRequest)
+      const localVarPath = `${API_V}/api/graphql`
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      //const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      const data = {
+        query: getPostRequest?.query ?? postQuery,
+        variables: { ...getPostRequest?.variables },
+      }
+
+      //setVariables(data, getPostsRequest.variables)
+
+      const headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      /* localVarRequestOptions.data = serializeDataIfNeeded(
+        getPostsRequest,
+        localVarRequestOptions,
+        configuration
+      ) */
+      localVarRequestOptions.data = data
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -773,6 +865,33 @@ export const ProductHuntAPIFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.GetTopics(
         getTopicsRequest,
+        options
+      )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      )
+    },
+    /**
+     *
+     * @summary Get post from Product Hunt for the provided parameters.
+     * @param {GetPost} GetPost
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async GetPost(
+      getPostRequest?: GetPostRequest,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ProductHuntTopicResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.GetPost(
+        getPostRequest,
         options
       )
       return createRequestFunction(
