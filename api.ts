@@ -21,6 +21,193 @@ export interface ProductHuntPostResponse {
  * Represents the data object within the ProductHunt post response.
  */
 export interface PostData {
+  post?: Post
+}
+
+/**
+ * Represents the post object within the ProductHunt post data.
+ */
+export interface Post {
+  /**
+   * The number of comments on the post.
+   * @type {number}
+   */
+  commentsCount?: number;
+
+  /**
+   * The timestamp when the post was created.
+   * @type {Date}
+   */
+  createdAt?: Date;
+
+  /**
+   * The timestamp when the post was featured.
+   * @type {Date}
+   */
+  featuredAt?: Date;
+
+  /**
+   * The description of the post.
+   * @type {string}
+   */
+  description: string;
+
+  /**
+   * Indicates whether the post has been collected.
+   * @type {boolean}
+   */
+  isCollected?: boolean;
+
+  /**
+   * The unique identifier of the post.
+   * @type {string}
+   */
+  id?: string;
+
+  /**
+   * The name or title of the post.
+   * @type {string}
+   */
+  name?: string;
+
+  /**
+   * Indicates whether the user has voted on the post.
+   * @type {boolean}
+   */
+  isVoted?: boolean;
+
+  /**
+   * The rating given to the post in reviews.
+   * @type {number}
+   */
+  reviewsRating?: number;
+
+  /**
+   * The number of reviews for the post.
+   * @type {number}
+   */
+  reviewsCount?: number;
+
+  /**
+   * The tagline associated with the post.
+   * @type {string}
+   */
+  tagline?: string;
+
+  /**
+   * The slug (short URL) of the post.
+   * @type {string}
+   */
+  slug?: string;
+
+  /**
+   * The unique identifier of the user who created the post.
+   * @type {string}
+   */
+  userId?: string;
+
+  /**
+   * The URL associated with the post.
+   * @type {string}
+   */
+  url?: string;
+
+  /**
+   * The website URL associated with the post.
+   * @type {string}
+   */
+  website?: string;
+
+  /**
+   * The number of votes received by the post.
+   * @type {number}
+   */
+  votesCount?: number;
+
+  /**
+   * Information about collections associated with the post.
+   * @type {CollectionInfo}
+   */
+  collections?: {
+    /**
+     * The total number of collections associated with the post.
+     * @type {number}
+     */
+    totalCount?: number;
+  };
+
+  /**
+   * Information about comments on the post.
+   * @type {CommentInfo}
+   */
+  comments?: {
+    /**
+     * The total number of comments on the post.
+     * @type {number}
+     */
+    totalCount?: number;
+  };
+
+  /**
+   * Information about makers associated with the post.
+   * @type {Maker[]}
+   */
+  makers?: Maker[];
+
+  /**
+   * Information about media content associated with the post.
+   * @type {MediaInfo[]}
+   */
+  media?: Media[];
+
+  /**
+   * Information about product links associated with the post.
+   * @type {ProductLinkInfo[]}
+   */
+  productLinks?: ProductLink[];
+
+  /**
+   * Information about the post's thumbnail.
+   * @type {Thumbnail}
+   */
+  thumbnail?: Thumbnail;
+
+  /**
+   * Information about topics associated with the post.
+   * @type {Topic[]}
+   */
+  topics?: Topic[];
+
+  /**
+   * Information about the user who created the post.
+   * @type {User}
+   */
+  user?: User;
+
+  /**
+   * Information about votes received by the post.
+   * @type {VoteInfo}
+   */
+  votes?: {
+    /**
+     * The total number of votes received by the post.
+     * @type {number}
+     */
+    totalCount?: number;
+  };
+}
+
+/**
+ * Represents the response object for a ProductHunt post.
+ */
+export interface ProductHuntPostsResponse {
+  data?: PostsData
+}
+
+/**
+ * Represents the data object within the ProductHunt post response.
+ */
+export interface PostsData {
   posts?: Posts
 }
 
@@ -245,6 +432,51 @@ export interface PostNode {
    * @memberof PostNode
    */
   userId?: string
+}
+
+/**
+ * Represents a product link object.
+ */
+export interface ProductLink {
+  /**
+   * The type of the product link.
+   * @type {string}
+   * @memberof ProductLink
+   */
+  type?: string
+
+  /**
+   * The url of the product link.
+   * @type {string}
+   * @memberof ProductLink
+   */
+  url?: string
+}
+
+/**
+ * Represents a media object.
+ */
+export interface Media {
+  /**
+   * The type of the media.
+   * @type {string}
+   * @memberof Media
+   */
+  type?: string
+
+  /**
+   * The url of the media.
+   * @type {string}
+   * @memberof Media
+   */
+  url?: string
+
+  /**
+   * The video url of the media.
+   * @type {string}
+   * @memberof Media
+   */
+  videoUrl?: string
 }
 
 /**
