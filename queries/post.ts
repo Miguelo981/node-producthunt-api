@@ -99,3 +99,85 @@ query Post ($first: Int, $order: PostsOrder, $featured: Boolean, $postedBefore: 
     }
 }
 `
+
+export const postQuery = `
+query Post ($id: ID, $slug: String) {
+    post(
+        id: $id
+        slug: $slug
+    ) {
+        commentsCount
+        createdAt
+        featuredAt
+        description
+        isCollected
+        id
+        name
+        isVoted
+        reviewsRating
+        reviewsCount
+        tagline
+        slug
+        userId
+        url
+        website
+        votesCount
+        collections {
+            totalCount
+        }
+        comments {
+            totalCount
+        }
+        makers {
+            coverImage
+            headline
+            createdAt
+            isFollowing
+            id
+            isViewer
+            isMaker
+            profileImage
+            name
+            url
+            twitterUsername
+            websiteUrl
+            username
+        }
+        media {
+            type
+            url
+            videoUrl
+        }
+        productLinks {
+            type
+            url
+        }
+        thumbnail {
+            type
+            videoUrl
+            url
+        }
+        topics {
+            totalCount
+        }
+        user {
+            coverImage
+            headline
+            createdAt
+            isFollowing
+            id
+            isViewer
+            isMaker
+            profileImage
+            name
+            url
+            twitterUsername
+            websiteUrl
+            username
+        }
+        votes {
+            totalCount
+        }
+    }
+}
+`
