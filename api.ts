@@ -1066,7 +1066,7 @@ export const ProductHuntAPIFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<ProductHuntPostResponse>
+      ) => AxiosPromise<ProductHuntPostsResponse>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.GetPosts(
         getPostsRequest,
