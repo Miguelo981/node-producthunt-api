@@ -91,7 +91,7 @@ try {
 - [x] Support for Oauth token middleware
 - [x] Add GetPosts query
 - [x] Add GetTopics query
-- [ ] Add GetPost query
+- [x] Add GetPost query
 - [ ] Add GetTopic query
 - [ ] Add GetCollection/s query
 - [ ] Add GetViewer/s query
