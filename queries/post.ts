@@ -159,6 +159,27 @@ query Post ($id: ID, $slug: String) {
         }
         topics {
             totalCount
+            pageInfo {
+                endCursor
+                hasNextPage
+                hasPreviousPage
+                startCursor
+            }
+            nodes {
+                createdAt
+                description
+                followersCount
+                id
+                image
+                isFollowing
+                name
+                postsCount
+                slug
+                url
+            }
+            edges {
+                cursor
+            }
         }
         user {
             coverImage
