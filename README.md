@@ -13,6 +13,20 @@ npm install node-producthunt-api
 
 The library needs to be configured with your account's secret key, which is available in your [Product Hunt account page]([https://platform.openai.com/account/api-keys](https://www.producthunt.com/v2/oauth/applications)). We recommend setting it as an environment variable. Here's an example of initializing the library with the API key loaded from an environment variable and creating a completion:
 
+## Init client
+
+You can use your app dev token directly:
+
+```javascript
+const { Configuration, ProductHuntAPI } = require("node-producthunt-api");
+
+const configuration = new Configuration({
+        apiKey: process.env.PRODUCT_HUNT_DEV_TOKEN,
+})
+```
+
+or use your Oauth credentials If you have no token created:
+
 ```javascript
 const { Configuration, ProductHuntAPI } = require("node-producthunt-api");
 
@@ -21,6 +35,11 @@ const configuration = new Configuration({
         clientSecret: process.env.PRODUCT_HUNT_CLIENT_SECRET,
         grantType: "client_credentials",
 })
+```
+
+```javascript
+const { ProductHuntAPI } = require("node-producthunt-api");
+
 const productHuntAPI = new ProductHuntAPI(configuration)
 
 const { data } = await productHuntAPI
@@ -60,6 +79,16 @@ const completion = await productHuntAPI
   );
 ```
 
+### CommonJs and ESModules Support
+
+```javascript
+const { Configuration, ProductHuntAPI } = require("node-producthunt-api");
+```
+
+```javascript
+import { Configuration, ProductHuntAPI } from "node-producthunt-api"
+```
+
 ### Error handling
 
 API requests can potentially return errors due to invalid inputs or other issues. These errors can be handled with a `try...catch` statement, and the error details can be found in either `error.response` or `error.message`:
@@ -92,6 +121,7 @@ try {
 - [x] Add GetPosts query
 - [x] Add GetTopics query
 - [x] Add GetPost query
+- [x] Support dev token
 - [ ] Add GetTopic query
 - [ ] Add GetCollection/s query
 - [ ] Add GetViewer/s query
